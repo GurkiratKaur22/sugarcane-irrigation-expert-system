@@ -1,0 +1,44 @@
+digraph G {
+  rankdir=TB; nodesep=0.35; ranksep=0.55; splines=true;
+  node [fontname="DejaVu Sans", fontsize=11]; edge [fontname="DejaVu Sans", fontsize=9, color="#555555"];
+  label="Sugarcane irrigation expert system: rule dependency diagram   (* = required input)"; labelloc=t; fontname="DejaVu Sans"; fontsize=14;
+  in_age [label="crop_age_days *", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_soil [label="soil_type *", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_moist [label="soil_moisture *", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_days [label="days_since_irrigation", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_rain [label="rain_last_48h\nrain_forecast", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_harvest [label="days_to_harvest", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_leaf [label="leaf_symptoms", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_method [label="irrigation_method", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_power [label="electricity_hours", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  in_fert [label="days_since_fertilizer", shape=box, style="rounded,filled", fillcolor="#EEEEEE", color="#999999"];
+  A [label="A. Crop stage\nR01-R04  (4 rules)", shape=box, style="filled", fillcolor="#FBEAEC", fontcolor="black", color="#A6192E", penwidth=2];
+  B [label="B. Soil texture\nR05-R07  (3 rules)", shape=box, style="filled", fillcolor="#FBEAEC", fontcolor="black", color="#A6192E", penwidth=2];
+  C [label="C. Irrigation interval\nR08-R19  (12 rules)", shape=box, style="filled", fillcolor="#FBEAEC", fontcolor="black", color="#A6192E", penwidth=2];
+  D [label="D. Water need\nR20-R23  (4 rules)", shape=box, style="filled", fillcolor="#FBEAEC", fontcolor="black", color="#A6192E", penwidth=2];
+  E [label="E. Rain effect\nR24-R25  (2 rules)", shape=box, style="filled", fillcolor="#FBEAEC", fontcolor="black", color="#A6192E", penwidth=2];
+  F [label="F. FINAL DECISION\nR26-R32  (7 rules)", shape=box, style="filled", fillcolor="#A6192E", fontcolor="white", color="#A6192E", penwidth=2];
+  G [label="G. Details & alerts\nR33-R37  (5 rules)", shape=box, style="filled", fillcolor="#FBEAEC", fontcolor="black", color="#A6192E", penwidth=2];
+  out [label="ADVISORY\n+ explanation trace\n(which rules fired and why)", shape=box, style="rounded,filled", fillcolor="#DFF0D8", color="#3C763D"];
+  in_age -> A [label="crop_age_days"];
+  in_soil -> B [label="soil_type"];
+  A -> C [label="stage"];
+  B -> C [label="retention"];
+  in_moist -> D [label="soil_moisture"];
+  in_days -> D [label="days_since_irrigation"];
+  C -> D [label="interval_days"];
+  in_rain -> E [label="rain_last_48h /
+rain_forecast"];
+  A -> F [label="stage"];
+  in_harvest -> F [label="days_to_harvest"];
+  D -> F [label="water_need"];
+  E -> F [label="rain_effect"];
+  in_leaf -> F [label="leaf_symptoms"];
+  F -> G [label="decision"];
+  in_method -> G [label="irrigation_method"];
+  in_power -> G [label="electricity_hours"];
+  in_fert -> G [label="days_since_fertilizer"];
+  G -> out [label="notes + alerts"];
+  F -> out [label="decision"];
+  {rank=same; in_age; in_soil; in_moist; in_days; in_rain}
+}
